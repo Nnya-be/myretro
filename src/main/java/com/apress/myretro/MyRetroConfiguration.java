@@ -1,41 +1,25 @@
 package com.apress.myretro;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Arrays;
-
+@EnableConfigurationProperties({MyRetroProperties.class})
 @Configuration
 public class MyRetroConfiguration {
-    Logger log = LoggerFactory.getLogger(MyretroApplication.class);
+    Logger log = LoggerFactory.getLogger(MyRetroConfiguration.class);
 
-
     @Bean
-    CommandLineRunner commandLineRunner(){
-        return args -> {
-            log.info("[CLR] Args: {}", Arrays.toString(args));
-        };
-    }
-    @Bean
-    ApplicationRunner applicationRunner(){
-        return args -> {
-            log.info("[AR] Option Args: {}", args.getOptionNames());
-            log.info("[AR] Option Arg Values: {}", args.getOptionValues("option"));
-            log.info("[AR] Non Option: {}", args.getNonOptionArgs());
-        };
-    }
-    @Bean
-    ApplicationListener<ApplicationReadyEvent>
-    applicationReadyEventApplicationListener(){
+    ApplicationListener<ApplicationReadyEvent> init(MyRetroProperties myRetroProperties){
         return event -> {
-            log.info("[AL] Im ready to interact...");
+            log.info("\nThe users service properties are:\n- Server: {}\n- Port: {}\n- Username: {}\n- Password: {}",
+                    myRetroProperties.getUsers().getServer(),
+                    myRetroProperties.getUsers().getPort(),
+                    myRetroProperties.getUsers().getUsername(),
+                    myRetroProperties.getUsers().getPassword());
         };
     }
 }

@@ -3,7 +3,7 @@ HELP.md
 build/
 !gradle/wrapper/gradle-wrapper.jar
 src/main/resources/application.properties
-~/src/main/resources/application-cloud.properties
+src/main/resources/application-cloud.properties
 !**/src/main/**/build/
 !**/src/test/**/build/
 
